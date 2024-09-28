@@ -1,91 +1,87 @@
 import random
 
-num = random.randint(1,100)
+def random_number():
+    return random.randint(1,100)
 
-def dif_easy():
-    chances = int(15)
-    attempt = int(0)
-    print("Your chances is " + str(chances))
-    g_num = int(input("Enter your guess : "))
-    while g_num != num & chances > 0:
-        if g_num < num:
-            g_num = int(input("Incorrect!! Your guess too low, guess again = "))
-            print("Chance remeaning is " + str(chances))
-        elif g_num > num:
-            g_num = int(input("Incorrect!! Your guess too high, guess again = "))
-            print("Chance remeaning is " + str(chances))
-        elif g_num == num:
-            print("Congratulations! You guessed the correct number in " + str(attempt) + " attempts")
-            break
-        attempt += 1
-        chances -= 1
-    else:
-        print("Your failed too guess the number")
-        print("Back to Main Menu")
-        return main()
+def difficulty_select():
+    print("|| E = Easy (20 chances)   ||\n|| M = Medium (10 chances) ||\n|| H = Hard (5 chances)    ||\n")
+    choice = str(input("Please select difficulty level :")).lower()
+    while True:
+        if choice == "e":
+            difficulty = "Easy"
+            chances = 20
+            return difficulty,chances
+        elif choice == "m":
+            difficulty = "Medium"
+            chances = 10
+            return difficulty,chances
+        elif choice == "h":
+            difficulty = "Hard"
+            chances = 5
+            return difficulty,chances
+        else:
+            print("Invalid choice,please enter availabel option!!")
+
+def the_game():
+    difficulty,chances = difficulty_select()
+    number_to_guess = random_number()
+    attempts = 0
+    
+    print(f"You choose {difficulty} diffculty with {chances} chances")
+    print("Good Luck & Have Fun \n")
+    
+    while attempts < chances:
+        try:
+            guess = int(input("Enter your guess : "))
+        except ValueError:
+            print("You input an invalid number,please try again")
+            continue
+        attempts += 1
+        
+        if guess < number_to_guess:
+            print("Incorrect!! Your guess is too low,please enter your guess again\n")
+        elif guess > number_to_guess:
+            print("Incorrect!! Your guess is too high,please enter your guess again\n")
+        else:
+            print(f"Congratulations you can guess the number in {attempts} attempts")
+            return attempts
+    print(f"\nSorry your chances are runs out,the number you must guess is {number_to_guess}")
+    return attempts,chances
+            
     
 
-def dif_medium():
-    chances = int(10)
-    attempt = int(0)
-    print("Your chances is " + str(chances))
-    g_num = int(input("Enter your guess : "))
-    while g_num != num & chances > 0:
-        if g_num < num:
-            g_num = int(input("Incorrect!! Your guess too low, guess again = "))
-            print("Chance remeaning is " + str(chances))
-        elif g_num > num:
-            g_num = int(input("Incorrect!! Your guess too high, guess again = "))
-            print("Chance remeaning is " + str(chances))
-        elif g_num == num:
-            print("Congratulations! You guessed the correct number in " + str(attempt) + " attempts")
-            break
-        attempt += 1
-        chances -= 1
-    else:
-        print("Your failed too guess the number")
-        print("Back to Main Menu")
-        return main()
-    
-
-def dif_hard():
-    chances = int(5)
-    attempt = int(0)
-    print("Your chances is " + str(chances))
-    g_num = int(input("Enter your guess : "))
-    while g_num != num & chances > 0:
-        if g_num < num:
-            g_num = int(input("Incorrect!! Your guess too low, guess again = "))
-            print("Chance remeaning is " + str(chances))
-        elif g_num > num:
-            g_num = int(input("Incorrect!! Your guess too high, guess again = "))
-            print("Chance remeaning is " + str(chances))
-        elif g_num == num:
-            print("Congratulations! You guessed the correct number in " + str(attempt) + " attempts")
-            break
-        attempt += 1
-        chances -= 1
-    else:
-        print("Your failed too guess the number")
-        print("Back to Main Menu")
-        return main()
-    
+def welcome_massage():
+    print("###################################")
+    print("### Welcome to Guess The Number ###")
+    print("###################################")
+    name = str(input("Enter your name : "))
+    print("Welcome " + name + ",to the Guess The Number\n")
+    print("The rules are simple you just guess the number i think between 1 and 100")
+    print("Good Luck and Have Fun\n")
+    return name
 
 def main():
-    print("Welcome to Guess The Number")
-    name = str(input("Enter your name : "))
-    print(name + ",You must guesss the number i think between 1 and 100")
-    print("E = Easy(15 chances) M = Medium(15 chances) H = Hard(15 chances)")
-    difficulty = input("Select your difficulty : ")
+    high_score = 0
+    
+    while True:
+        name = welcome_massage()
+        attempts,chances = the_game()
 
-    if difficulty == "E" or difficulty == "e":
-        dif_easy()
-    elif difficulty == "M" or difficulty == "m":
-        dif_medium()
-    elif difficulty == "H" or difficulty == "h":
-        dif_hard()
-    else:
-        print("Your option not available")
-        return main()
+        if chances == 20:
+            high_score = high_score + (100 - (attempts * 5 ))
+        elif chances == 10:
+            high_score = high_score + (100 - (attempts* 10))
+        elif chances == 5:
+            high_score == high_score + (100 - (attempts * 20))
+        
+        print(f"Your Current High Score is {high_score} point")
+        
+        play_again = input("\n Do you want play again? (y/n) : ").strip().lower()
+        if play_again != "y":
+            print(f"Thank you for playing with me {name}! Goodbye and Have a nice day!\n\n")
+            break
 
 main()
+            
+    
+    
