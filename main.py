@@ -74,8 +74,11 @@ def main():
         elif chances == 5:
             high_score == high_score + (100 - (attempts * 20))
         
-        print(f"Your Current High Score is {high_score} point")
-        
+        if high_score > 0:
+            print(f"Your Current High Score is {high_score} point")
+        else:
+            print(f"Your Current High Score is 0 point")
+            
         play_again = input("\n Do you want play again? (y/n) : ").strip().lower()
         if play_again != "y":
             print(f"Thank you for playing with me {name}! Goodbye and Have a nice day!\n\n")
