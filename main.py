@@ -1,5 +1,7 @@
 import random
 
+chance = 0
+
 def random_number():
     return random.randint(1,100)
 
@@ -26,6 +28,8 @@ def the_game():
     difficulty,chances = difficulty_select()
     number_to_guess = random_number()
     attempts = 0
+    global chance
+    chance = chance + chances
     
     print(f"You choose {difficulty} diffculty with {chances} chances")
     print("Good Luck & Have Fun \n")
@@ -46,7 +50,7 @@ def the_game():
             print(f"Congratulations you can guess the number in {attempts} attempts")
             return attempts
     print(f"\nSorry your chances are runs out,the number you must guess is {number_to_guess}")
-    return attempts,chances
+    return attempts,chance
             
     
 
@@ -65,14 +69,14 @@ def main():
     
     while True:
         name = welcome_massage()
-        attempts,chances = the_game()
+        attempts = the_game()
 
-        if chances == 20:
+        if chance == 20:
             high_score = high_score + (100 - (attempts * 5 ))
-        elif chances == 10:
-            high_score = high_score + (100 - (attempts* 10))
-        elif chances == 5:
-            high_score == high_score + (100 - (attempts * 20))
+        elif chance == 10:
+            high_score = high_score + (100 - (attempts * 10))
+        elif chance == 5:
+            high_score = high_score + (100 - (attempts * 20))
         
         if high_score > 0:
             print(f"Your Current High Score is {high_score} point")
